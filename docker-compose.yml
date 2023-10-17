@@ -19,7 +19,6 @@ services:
       - "8505:8501"
       - "3001:3000"
       - "5001:5000"
-      - "127.0.0.1:7860:7860"
     volumes:
       - ./:/root
       - /home/dataset:/root/dataset
