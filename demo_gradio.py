@@ -1,3 +1,4 @@
+# このファイルは日本語注釈
 import argparse
 import functools
 import pathlib
@@ -10,11 +11,16 @@ import torch
 
 import anime_face_detector
 
+detector = anime_face_detector.create_detector('yolov3', device='cuda:0')
 
-def detect(img, face_score_threshold: float, landmark_score_threshold: float,
-           detector: anime_face_detector.LandmarkDetector) -> PIL.Image.Image:
-    image = cv2.imread(img.name)
+def detect(img: PIL.Image.Image, face_score_threshold: float, landmark_score_threshold: float) -> PIL.Image.Image:
+    global detector 
+ 
+    image = np.array(img) 
+    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    
     preds = detector(image)
+
 
     res = image.copy()
     for pred in preds:
@@ -67,19 +73,14 @@ def main():
             'https://raw.githubusercontent.com/hysts/anime-face-detector/main/assets/input.jpg',
             sample_path.as_posix())
 
-    detector = anime_face_detector.create_detector(args.detector,
-                                                   device=args.device)
-    func = functools.partial(detect, detector=detector)
-    func = functools.update_wrapper(func, detect)
-
     title = 'hysts/anime-face-detector'
     description = 'Demo for hysts/anime-face-detector. To use it, simply upload your image, or click one of the examples to load them. Read more at the links below.'
     article = "<a href='https://github.com/hysts/anime-face-detector'>GitHub Repo</a>"
 
     gr.Interface(
-        func,
+        detect, 
         [
-            gr.inputs.Image(type='file', label='Input'),
+            gr.inputs.Image(type='pil', label='Input'),
             gr.inputs.Slider(0,
                              1,
                              step=args.score_slider_step,
@@ -105,7 +106,7 @@ def main():
         ],
         enable_queue=True,
         live=args.live,
-    ).launch(debug=args.debug, share=args.share)
+    ).launch(debug=args.debug, share=True)
 
 
 if __name__ == '__main__':

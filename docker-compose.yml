@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  nvidia_docker:
+    build:
+      context: .
+      shm_size: '10gb'
+    shm_size: '10gb'
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    tty: true
+    restart: always
+    ports:
+      - "8505:8501"
+      - "3001:3000"
+      - "5001:5000"
+      - "127.0.0.1:7860:7860"
+    volumes:
+      - ./:/root
+      - /home/dataset:/root/dataset
+      - /home/Cloud/:/root/Cloud
+
+    working_dir: /root
+    command: ["/bin/bash"]
