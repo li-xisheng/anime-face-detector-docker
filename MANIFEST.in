@@ -1,4 +1,13 @@
-include LICENSE
-include README.md
-include requirements.txt
-recursive-include anime_face_detector/configs *.py
+docker compose build
+docker compose up
+++++
+docker ps
+<NAMES> = NAMES list
+docker exec -it <NAMES> /bin/bash
+docker exec -it anime-face-detector-docker-nvidia_docker-1 /bin/bash
+ 
+++++++
+ls 
+python3 demo_gradio.py
+
+++++++
