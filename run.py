@@ -7,7 +7,9 @@ from anime_face_detector import create_detector
 detector = create_detector('yolov3')
 
 # 画像の読み込み
+#############################################
 image = cv2.imread('assets/test1.jpg')
+#############################################
 
 # 顔の検出を行う
 preds = detector(image)
@@ -24,4 +26,6 @@ for pred in preds:
         cv2.circle(image, (kp[0], kp[1]), 3, (0, 0, 255), -1)
 
 # 注釈付きの画像を保存
+#############################################
 cv2.imwrite('assets/test1-out.jpg', image)
+#############################################

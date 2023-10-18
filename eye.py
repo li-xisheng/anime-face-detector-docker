@@ -8,7 +8,9 @@ from anime_face_detector import create_detector
 detector = create_detector('yolov3')
 
 # 定义输入文件路径和名称
-input_filepath = 'assets/test2.jpg'
+#############################################
+input_filepath = 'assets/test1.jpg'
+#############################################
 input_filename = os.path.basename(input_filepath)
 filename_without_extension = os.path.splitext(input_filename)[0]
 
